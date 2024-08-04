@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build"
+        "build": "tsc && vite build",
+        "prettier-all": "prettier --write **/*.tsx"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
@@ -27,6 +28,8 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "lucide-react": "^0.424.0",
+        "prettier": "^3.3.3",
+        "prettier-plugin-tailwindcss": "^0.6.5",
         "tailwind-merge": "^2.4.0",
         "tailwindcss-animate": "^1.0.7"
     }
