@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
                 LiftSeeder::class,
                 UserSeeder::class,
                 LiftManagerSeeder::class,
+                InspectionSeeder::class,
                 // MechanicSeeder::class,
-                // InspectionSeeder::class,
             ]
         );
         // User::factory(10)->create();

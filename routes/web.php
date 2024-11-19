@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LiftController;
 use App\Http\Controllers\LiftManagerController;
+use App\Http\Controllers\InspectionController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -48,6 +49,16 @@ Route::get('/lift-managers/{liftManager}', [LiftManagerController::class, 'show'
 Route::get('/lift-managers/{liftManager}/edit', [LiftManagerController::class, 'edit'])->name('lift-managers.edit');
 Route::patch('/lift-managers/{liftManager}', [LiftManagerController::class, 'update'])->name('lift-managers.update');
 Route::delete('/lift-managers/{liftManager}', [LiftManagerController::class, 'destroy'])->name('lift-managers.destroy');
+
+Route::get('/inspections', [InspectionController::class, 'index'])->name('inspections.index');
+Route::get('/inspections/create', [InspectionController::class, 'create'])->name('inspections.create');
+Route::post('/inspections', [InspectionController::class, 'store'])->name('inspections.store');
+Route::get('/inspections/{inspection}', [InspectionController::class, 'show'])->name('inspections.show');
+Route::get('/inspections/{inspection}/edit', [InspectionController::class, 'edit'])->name('inspections.edit');
+Route::patch('/inspections/{inspection}', [InspectionController::class, 'update'])->name('inspections.update');
+Route::delete('/inspections/{inspection}', [InspectionController::class, 'destroy'])->name('inspections.destroy');
+
+
 
 
 require __DIR__.'/auth.php';
