@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LiftController;
 use App\Http\Controllers\LiftManagerController;
 use App\Http\Controllers\InspectionController;
+use App\Http\Controllers\MechanicController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -57,6 +58,14 @@ Route::get('/inspections/{inspection}', [InspectionController::class, 'show'])->
 Route::get('/inspections/{inspection}/edit', [InspectionController::class, 'edit'])->name('inspections.edit');
 Route::patch('/inspections/{inspection}', [InspectionController::class, 'update'])->name('inspections.update');
 Route::delete('/inspections/{inspection}', [InspectionController::class, 'destroy'])->name('inspections.destroy');
+
+Route::get('/mechanics', [MechanicController::class, 'index'])->name('mechanics.index');
+Route::get('/mechanics/create', [MechanicController::class, 'create'])->name('mechanics.create');
+Route::post('/mechanics', [MechanicController::class, 'store'])->name('mechanics.store');
+Route::get('/mechanics/{mechanic}', [MechanicController::class, 'show'])->name('mechanics.show');
+Route::get('/mechanics/{mechanic}/edit', [MechanicController::class, 'edit'])->name('mechanics.edit');
+Route::patch('/mechanics/{mechanic}', [MechanicController::class, 'update'])->name('mechanics.update');
+Route::delete('/mechanics/{mechanic}', [MechanicController::class, 'destroy'])->name('mechanics.destroy');
 
 
 
