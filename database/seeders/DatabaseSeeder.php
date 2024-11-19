@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             [
                 LiftSeeder::class,
                 UserSeeder::class,
-                // LiftManagerSeeder::class,
+                LiftManagerSeeder::class,
                 // MechanicSeeder::class,
                 // InspectionSeeder::class,
             ]
