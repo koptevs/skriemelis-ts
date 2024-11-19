@@ -17,6 +17,10 @@ Route::get('/test', function () {
     return Inertia::render('Test');
 })->name('test');
 
+Route::get('/pdf', function () {
+    return Inertia::render('Pdf/Pdf');
+})->name('pdf');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

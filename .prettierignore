@@ -4,3 +4,4 @@
 package-lock.json
 composer.lock
 /public
+/resources/js/pages/Pdf/Partials/ParbaudesRezultati/ParbaudesRezultati.tsx
