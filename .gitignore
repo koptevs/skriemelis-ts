@@ -20,3 +20,7 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
+/database/seeders/sources/*
+database/seeders/UserSeeder.php
+/database/seeders/sources/
+/resources/views/protocol/data/
