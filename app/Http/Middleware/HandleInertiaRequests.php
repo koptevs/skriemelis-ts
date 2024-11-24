@@ -34,6 +34,9 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            // 'fathom' => [
+            //     'canonical_url' => $request->getSchemeAndHttpHost().$request->route()->toSymfonyRoute()->getPath(),
+            // ],
         ];
     }
 }
