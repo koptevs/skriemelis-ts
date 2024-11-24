@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lift;
 use App\Http\Requests\StoreLiftRequest;
 use App\Http\Requests\UpdateLiftRequest;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class LiftController extends Controller
@@ -12,13 +13,45 @@ class LiftController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     // Job::with('employer')->get(); //Laracasts 13. Eager Дщфвштп
+
     public function index()
     {
-        $lifts = Lift::all();
-        // dd($lifts);
+        // $lifts = Lift::all();
+        // $lifts = Lift::query()->paginate(3)->withQueryString();
+
+        // $lifts = Lift::all()->map(fn($lift)=>[
+        // 'name' => $lift->name
+        // ])
+
+    /*     $lifts = Lift::query()->paginate(10);
         return Inertia::render(
             'Lift/Index', ['lifts' => $lifts]
+        ); */
+
+        $lifts = Lift::query()
+                     ->when(
+                         Request::input('search'), function ($query, $search) {
+                         //Request::input('search') == $search
+                         $query->where('reg_number', 'like', "%{$search}%");
+                     })
+                     ->paginate(100)
+                     ->withQueryString();
+        //        dd($lifts);
+        //        ->through(fn($lift)=>[
+        //            'reg_number' => $lift->reg_number
+        //        ]);
+
+
+        return Inertia::render(
+            'Lift/Index', [
+            'lifts'   => $lifts,
+            'filters' => Request::only(['search'])
+        ],
         );
+
+
     }
 
     /**
@@ -36,6 +69,7 @@ class LiftController extends Controller
      */
     public function store(StoreLiftRequest $request)
     {
+        dd($request->all());
         //
     }
 
