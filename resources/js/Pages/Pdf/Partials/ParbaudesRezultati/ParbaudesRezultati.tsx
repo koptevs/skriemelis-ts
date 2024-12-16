@@ -337,7 +337,7 @@ const col2 = [
 
 const ParbaudesRezultati = () => {
     return (
-        <>
+        <View style={{marginTop: "2mm"}}>
             <Text style={styles.sectionHeader}>Pārbaudes rezultāti</Text>
             <View style={styles.wrapper}>
                 <View style={styles.column}>
@@ -366,7 +366,7 @@ const ParbaudesRezultati = () => {
                     )}
                 </View>
             </View>
-        </>
+        </View>
     );
 };
 
