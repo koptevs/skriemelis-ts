@@ -69,7 +69,12 @@ class LiftController extends Controller
      */
     public function store(StoreLiftRequest $request)
     {
-        dd($request->all());
+        Lift::create($request->validate([
+            'username' => ['required', 'min:50'],
+            'email' => ['required', 'min:50', 'email'],
+            'password' => ['required', 'min:50'],
+          ]));
+        // dd($request->all());
         //
     }
 
