@@ -4,8 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
+
     /**
      * Run the migrations.
      */
@@ -15,13 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('protocol_number', 32);
             $table->foreignId('lift_id')->nullable();
-//            $table->integer('lift_id');
+            //            $table->integer('lift_id');
 
             $table->enum('inspection_type', [
-                'Pirmreizējā', 'Kārtējā', 'Ārpuskārtas', 'Atkārtotā'
+                'Pirmreizējā',
+                'Kārtējā',
+                'Ārpuskārtas',
+                'Atkārtotā',
             ])->nullable();
             $table->enum('inspection_next_type', [
-                'Pirmreizējā', 'Kārtējā', 'Ārpuskārtas', 'Atkārtotā'
+                'Pirmreizējā',
+                'Kārtējā',
+                'Ārpuskārtas',
+                'Atkārtotā',
             ])->nullable();
             $table->integer('expert')->unsigned()->nullable();
             $table->integer('lift_manager')->unsigned()->nullable();
@@ -44,7 +50,7 @@ return new class extends Migration
             $table->text('non_compliances_2')->nullable();
             $table->text('non_compliances_3')->nullable();
 
-//            $table->text('repeated_check_reason')->nullable();
+            //            $table->text('repeated_check_reason')->nullable();
             $table->text('extra_check_reason')->nullable();
             $table->text('not_checked_forced')->nullable();
 
@@ -61,4 +67,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('inspections');
     }
+
 };
