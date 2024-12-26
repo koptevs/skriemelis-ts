@@ -9,17 +9,17 @@ use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\MechanicController;
 use Inertia\Inertia;
 
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin'       => Route::has('login'),
+//        'canRegister'    => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion'     => PHP_VERSION,
+//    ]);
+//});
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin'       => Route::has('login'),
-        'canRegister'    => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion'     => PHP_VERSION,
-    ]);
-});
-Route::get('/test', function () {
-    return Inertia::render('Test');
-})->name('test');
+    return Inertia::render('Home');
+})->name('home');
 
 Route::get('/pdf', function () {
     return Inertia::render('Pdf/Pdf');

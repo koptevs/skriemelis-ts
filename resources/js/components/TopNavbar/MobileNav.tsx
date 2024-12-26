@@ -11,14 +11,14 @@ import {Button} from "../ui/button";
 
 import {Link} from "@inertiajs/react";
 import NavContent from "./NavContent";
-// import { ModeToggle } from "../mode-toggler";
+import {ModeToggle} from "@/components/TopNavbar/ModeToggle";
 
 export default function  MobileNav () {
     return (
         <div className="ml-4 flex w-full items-center justify-end sm:hidden">
             <Sheet>
                 <div className="flex w-full justify-between">
-                    {/*<ModeToggle />*/}
+                    <ModeToggle />
                     <div></div>
                     {/* TODO remove if on sheet will close */}
                     <SheetTrigger asChild>

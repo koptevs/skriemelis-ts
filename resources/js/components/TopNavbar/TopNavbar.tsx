@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/navigation-menu";
 // import MobileNav from "@/components/TopNavbar/MobileNav";
 import MobileNav from "@/components/TopNavbar/MobileNav";
+import { ModeToggle } from "@/components/TopNavbar/ModeToggle";
+import { PageProps } from "@/types";
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -51,10 +53,9 @@ const components: { title: string; href: string; description: string }[] = [
     },
 ];
 
-export default function TopNavbar() {
+export default function TopNavbar({ auth }: PageProps) {
     return (
         <>
-
             <div className="container mx-auto flex h-[56px] w-full max-w-2xl justify-between px-6 lg:max-w-7xl">
                 {/* <div className="flex items-center">LOGO</div> */}
                 <Link
@@ -67,10 +68,21 @@ export default function TopNavbar() {
                         width={20}
                         height={20}
                     />
-                    <div className="py-2 font-bold">
-                        NEXT-
-                        <span className="text-orange-600">TUV</span>
-                    </div>
+                    <div className="py-2 font-bold">SKRIEMELIS</div>
+                    {/*TODO replace logo with SVG*/}
+                    {/*<svg*/}
+                    {/*    className="size-5 sm:size-6"*/}
+                    {/*    xmlns="http://www.w3.org/2000/svg"*/}
+                    {/*    fill="none"*/}
+                    {/*    viewBox="0 0 24 24"*/}
+                    {/*>*/}
+                    {/*    <g fill="#772D20">*/}
+                    {/*        <path*/}
+                    {/*            d="M13.09 3.294c1.924.95 3.422 1.69 5.472.692a1 1 0 0 1 1.438.9v9.54a1 1 0 0 1-.562.9c-2.981 1.45-5.382.24-7.25-.701a38.739 38.739 0 0 0-.622-.31c-1.033-.497-1.887-.812-2.756-.77-.76.036-1.672.357-2.81 1.396V21a1 1 0 1 1-2 0V4.971a1 1 0 0 1 .297-.71c1.522-1.506 2.967-2.185 4.417-2.255 1.407-.068 2.653.453 3.72.967.225.108.443.216.655.32Z"/>*/}
+                    {/*    </g>*/}
+
+
+                    {/*</svg>*/}
                 </Link>
                 <NavigationMenu className="max-sm:hidden">
                     <NavigationMenuList>
@@ -147,15 +159,17 @@ export default function TopNavbar() {
                                 </ul>
                             </NavigationMenuContent>
                         </NavigationMenuItem>
-                        <NavigationMenuItem>
-                            <Link href="/dashboard">
-                                <NavigationMenuLink
-                                    className={navigationMenuTriggerStyle()}
-                                >
-                                    Dashboard
-                                </NavigationMenuLink>
-                            </Link>
-                        </NavigationMenuItem>
+                        {auth.user ? (
+                            <NavigationMenuItem>
+                                <Link href="/dashboard">
+                                    <NavigationMenuLink
+                                        className={navigationMenuTriggerStyle()}
+                                    >
+                                        Dashboard
+                                    </NavigationMenuLink>
+                                </Link>
+                            </NavigationMenuItem>
+                        ) : null}
                         <NavigationMenuItem>
                             <Link href="/about">
                                 <NavigationMenuLink
@@ -166,10 +180,28 @@ export default function TopNavbar() {
                             </Link>
                         </NavigationMenuItem>
                     </NavigationMenuList>
-                    <div className="ml-8"></div>
-                    {/* <ModeToggle /> */}
+                    {/*<div className="ml-8"></div>*/}
+                    <ModeToggle />
+                    <nav className="-mx-3 ml-2 flex flex-1 justify-end">
+                        {auth.user ? null : (
+                            <>
+                                {/*<Link*/}
+                                {/*    href={route("login")}*/}
+                                {/*    className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"*/}
+                                {/*>*/}
+                                {/*    Log in*/}
+                                {/*</Link>*/}
+                                {/*<Link*/}
+                                {/*    href={route("register")}*/}
+                                {/*    className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"*/}
+                                {/*>*/}
+                                {/*    Register*/}
+                                {/*</Link>*/}
+                            </>
+                        )}
+                    </nav>
                 </NavigationMenu>
-                <MobileNav/>
+                <MobileNav />
             </div>
         </>
     );
@@ -178,7 +210,7 @@ export default function TopNavbar() {
 const ListItem = React.forwardRef<
     React.ElementRef<"a">,
     React.ComponentPropsWithoutRef<"a">
-    >(({ className, title, children, ...props }, ref) => {
+>(({ className, title, children, ...props }, ref) => {
     return (
         <li>
             <NavigationMenuLink asChild>

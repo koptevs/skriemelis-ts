@@ -10,11 +10,12 @@ use Inertia\Inertia;
 
 class LiftController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
 
-     // Job::with('employer')->get(); //Laracasts 13. Eager Дщфвштп
+    // Job::with('employer')->get(); //Laracasts 13. Eager Дщфвштп
 
     public function index()
     {
@@ -25,10 +26,10 @@ class LiftController extends Controller
         // 'name' => $lift->name
         // ])
 
-    /*     $lifts = Lift::query()->paginate(10);
-        return Inertia::render(
-            'Lift/Index', ['lifts' => $lifts]
-        ); */
+        /*     $lifts = Lift::query()->paginate(10);
+            return Inertia::render(
+                'Lift/Index', ['lifts' => $lifts]
+            ); */
 
         $lifts = Lift::query()
                      ->when(
@@ -36,6 +37,11 @@ class LiftController extends Controller
                          //Request::input('search') == $search
                          $query->where('reg_number', 'like', "%{$search}%");
                      })
+                     ->when(
+                         Request::input('street'), function ($query, $search) {
+                         //Request::input('search') == $search
+                         $query->where('address', 'like', "%{$search}%");
+                         })
                      ->paginate(100)
                      ->withQueryString();
         //        dd($lifts);
@@ -47,11 +53,9 @@ class LiftController extends Controller
         return Inertia::render(
             'Lift/Index', [
             'lifts'   => $lifts,
-            'filters' => Request::only(['search'])
+            'filters' => Request::only(['search', 'street']),
         ],
         );
-
-
     }
 
     /**
@@ -71,9 +75,9 @@ class LiftController extends Controller
     {
         Lift::create($request->validate([
             'username' => ['required', 'min:50'],
-            'email' => ['required', 'min:50', 'email'],
+            'email'    => ['required', 'min:50', 'email'],
             'password' => ['required', 'min:50'],
-          ]));
+        ]));
         // dd($request->all());
         //
     }
@@ -113,4 +117,5 @@ class LiftController extends Controller
     {
         //
     }
+
 }
