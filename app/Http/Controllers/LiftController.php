@@ -87,8 +87,14 @@ class LiftController extends Controller
      */
     public function show(Lift $lift)
     {
+        $lift_with_inspections = Lift::with('inspections')->find($lift->id);
+//        dd($lift_with_inspections->inspections);
+//        dd($lift_with_inspections);
+
         return Inertia::render(
-            'Lift/Show'
+            'Lift/Show', [
+                'lift' => $lift_with_inspections
+            ]
         );
     }
 
