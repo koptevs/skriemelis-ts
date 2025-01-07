@@ -37,7 +37,6 @@ class LiftSeeder extends Seeder
             DB::table('lifts')->insert(
                 [
                     'reg_number'        => $lifts['lifts_reg_nr'],
-                    'bir_url'           => 'https://bir.lv/apex/f?p=103:84:8971621361413::NO::P84_EQUIPMENT_ID:132805&cs=142B1959A1C9FDD8BFA930D09ACBD041F',
                     'lift_type'         => $lifts['lifts_tips'],
                     'lift_category'     => $lifts['lifts_kategorija'],
                     'factory_number'    => $lifts['lifts_rupn_nr'],

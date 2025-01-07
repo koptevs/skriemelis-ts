@@ -41,7 +41,7 @@ class LiftController extends Controller
                          Request::input('street'), function ($query, $search) {
                          //Request::input('search') == $search
                          $query->where('address', 'like', "%{$search}%");
-                         })
+                     })
                      ->paginate(100)
                      ->withQueryString();
         //        dd($lifts);
@@ -73,11 +73,9 @@ class LiftController extends Controller
      */
     public function store(StoreLiftRequest $request)
     {
-        Lift::create($request->validate([
-            'username' => ['required', 'min:50'],
-            'email'    => ['required', 'min:50', 'email'],
-            'password' => ['required', 'min:50'],
-        ]));
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+        Lift::create($data);
         // dd($request->all());
         //
     }
@@ -88,12 +86,12 @@ class LiftController extends Controller
     public function show(Lift $lift)
     {
         $lift_with_inspections = Lift::with('inspections')->find($lift->id);
-//        dd($lift_with_inspections->inspections);
-//        dd($lift_with_inspections);
+        //        dd($lift_with_inspections->inspections);
+        //        dd($lift_with_inspections);
 
         return Inertia::render(
             'Lift/Show', [
-                'lift' => $lift_with_inspections
+                'lift' => $lift_with_inspections,
             ]
         );
     }

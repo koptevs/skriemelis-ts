@@ -23,7 +23,27 @@ class StoreLiftRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'regNumber'            => 'required|string',
+            'factoryNumber'        => 'required|string',
+            'liftType'             => 'required|string',
+            'liftCategory'         => 'required|string',
+            'model'                => 'nullable|string',
+            'speed'                => 'nullable|string',
+            'load'                 => 'required|int',
+            'manufacturer'         => 'nullable|string',
+            'installer'            => 'nullable|string',
+            'installationYear'     => 'required|int',
+            'floorsServiced'       => 'nullable|int',
+            'address'              => 'required|string',
+            'addressCity'          => 'required|string',
+            'addressCountry'       => 'required|string',
+            'addressPostalCode'    => 'required|string',
+            'liftManager'          => 'required|int',
+            'notes'                => 'nullable|string',
+            'inspection_status'    => 'nullable|string',
+            'entry_code'           => 'nullable|string',
+            'building_series'      => 'nullable|string',
+            'next_inspection_date' => 'nullable|date',
         ];
     }
 }

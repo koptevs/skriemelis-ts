@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('lift_manager_id')->nullable();
             $table->string('reg_number', 32)->unique();
-            $table->string('bir_url', 256);
+            $table->string('bir_url', 256)->default('');
             $table->enum('lift_type', ['elektriskais', 'hidrauliskais']);
             $table->enum('lift_category', ['1', '2', '3', 'CE']);
             $table->string('factory_number', 32);
