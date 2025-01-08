@@ -2,27 +2,27 @@ import ApplicationLogo from "@/components/ApplicationLogo";
 import Dropdown from "@/components/Dropdown";
 import NavLink from "@/components/NavLink";
 import ResponsiveNavLink from "@/components/ResponsiveNavLink";
-import {Link, usePage} from "@inertiajs/react";
-import {PropsWithChildren, ReactNode, useState} from "react";
+import { Link, usePage } from "@inertiajs/react";
+import { PropsWithChildren, ReactNode, useState } from "react";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Authenticated({
-                                          header,
-                                          children,
-                                      }: PropsWithChildren<{ header?: ReactNode }>) {
+    header,
+    children,
+}: PropsWithChildren<{ header?: ReactNode }>) {
     const user = usePage().props.auth.user;
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
-        <div className="min-h-screen  dark:bg-gray-900">
+        <div className="min-h-screen dark:bg-gray-900">
             <nav className="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href="/">
-                                    <ApplicationLogo
-                                        className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"/>
+                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                                 </Link>
                             </div>
 
@@ -46,7 +46,6 @@ export default function Authenticated({
                                 >
                                     Lifti
                                 </NavLink>
-
                             </div>
                         </div>
 
@@ -188,6 +187,7 @@ export default function Authenticated({
             )}
 
             <main>{children}</main>
+            <Toaster />
         </div>
     );
 }

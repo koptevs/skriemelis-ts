@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lift;
 use App\Http\Requests\StoreLiftRequest;
 use App\Http\Requests\UpdateLiftRequest;
+use App\Models\LiftManager;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
@@ -63,8 +64,10 @@ class LiftController extends Controller
      */
     public function create()
     {
+        $liftManagers = LiftManager::pluck('name', 'id');
+
         return Inertia::render(
-            'Lift/Create'
+            'Lift/Create', ['liftManagers' => $liftManagers]
         );
     }
 
@@ -73,7 +76,7 @@ class LiftController extends Controller
      */
     public function store(StoreLiftRequest $request)
     {
-        $data = $request->validated();
+        $data            = $request->validated();
         $data['user_id'] = auth()->id();
         Lift::create($data);
         // dd($request->all());
