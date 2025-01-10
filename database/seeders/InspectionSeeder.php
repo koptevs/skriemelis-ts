@@ -73,7 +73,8 @@ class InspectionSeeder extends Seeder
             //                dd($lift_id);
 //            var_dump($lift_id);
             $expert       = substr($inspection['parbaude_nr'], -2);
-            $lift_manager = $inspection['parbaude_valditajs'];
+            $manager = $inspection['parbaude_valditajs'];
+//            $lift_manager = $inspection['parbaude_valditajs'];
             //            if ($expert === '02' && $lift_manager !== '99') {
             if ($expert === '02') {
                 $participants = [];
@@ -305,7 +306,7 @@ class InspectionSeeder extends Seeder
                 DB::table('lifts')
                   ->where('id',
                       intval($lift_id))
-                  ->update(['lift_manager_id' => intval($inspection['parbaude_valditajs'])]);
+                  ->update(['manager_id' => intval($inspection['parbaude_valditajs'])]);
                 DB::table('lifts')
                   ->where('id',
                       intval($lift_id))

@@ -37,11 +37,13 @@ class LiftSeeder extends Seeder
             DB::table('lifts')->insert(
                 [
                     'reg_number'        => $lifts['lifts_reg_nr'],
-                    'lift_type'         => $lifts['lifts_tips'],
-                    'lift_category'     => $lifts['lifts_kategorija'],
+                    'type'         => $lifts['lifts_tips'],
+//                    'lift_type'         => $lifts['lifts_tips'],
+                    'category'     => $lifts['lifts_kategorija'],
+//                    'lift_category'     => $lifts['lifts_kategorija'],
                     'factory_number'    => $lifts['lifts_rupn_nr'],
                     'model'             => $lifts['lifts_modelis'] ?? null,
-                    'speed'             => $lifts['lifts_atrums'] ?? null,
+                    'speed'             => floatval($lifts['lifts_atrums'] ?? null),
                     'load'              => intval($lifts['lifts_celtspeja']),
                     'manufacturer'      => $lifts['lifts_razotajs'] ?? null,
                     // 'manufacture_year' => $lifts['lifts_razosanas_gada'] ?? null,

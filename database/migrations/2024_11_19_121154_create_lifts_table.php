@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('lifts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lift_manager_id')->nullable();
+            $table->foreignId('manager_id')->nullable();
+//            $table->foreignId('lift_manager_id')->nullable();
             $table->string('reg_number', 32)->unique();
             $table->string('bir_url', 256)->default('');
-            $table->enum('lift_type', ['elektriskais', 'hidrauliskais']);
-            $table->enum('lift_category', ['1', '2', '3', 'CE']);
+            $table->enum('type', ['elektriskais', 'hidrauliskais']);
+//            $table->enum('lift_type', ['elektriskais', 'hidrauliskais']);
+            $table->enum('category', ['1', '2', '3', 'CE']);
+//            $table->enum('lift_category', ['1', '2', '3', 'CE']);
             $table->string('factory_number', 32);
             $table->string('model', 64)->nullable();
             $table->decimal('speed', 8, 2)->nullable();
