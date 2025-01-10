@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('lift_category', ['1', '2', '3', 'CE']);
             $table->string('factory_number', 32);
             $table->string('model', 64)->nullable();
-            $table->string('speed', 8)->nullable();
+            $table->decimal('speed', 8, 2)->nullable();
             $table->smallInteger('load')->unsigned();
             $table->string('manufacturer', 128)->nullable();
             $table->string('installer', 128)->nullable();
