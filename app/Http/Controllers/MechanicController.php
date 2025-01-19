@@ -9,13 +9,14 @@ use Inertia\Inertia;
 
 class MechanicController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return Inertia::render(
-            'Mechanic/Index'
+            'Mechanic/Index', ['mechanics' => Mechanic::all()]
         );
     }
 
@@ -34,7 +35,11 @@ class MechanicController extends Controller
      */
     public function store(StoreMechanicRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        Mechanic::create($data);
+
+        return to_route('mechanics.index');
     }
 
     /**
@@ -43,7 +48,9 @@ class MechanicController extends Controller
     public function show(Mechanic $mechanic)
     {
         return Inertia::render(
-            'Mechanic/Show'
+            'Mechanic/Show', [
+            'mechanic' => $mechanic,
+        ],
         );
     }
 
@@ -53,7 +60,9 @@ class MechanicController extends Controller
     public function edit(Mechanic $mechanic)
     {
         return Inertia::render(
-            'Mechanic/Edit'
+            'Mechanic/Edit', [
+                'mechanic' => $mechanic,
+            ]
         );
     }
 
@@ -62,7 +71,9 @@ class MechanicController extends Controller
      */
     public function update(UpdateMechanicRequest $request, Mechanic $mechanic)
     {
-        //
+        $data = $request->validated();
+        //        dd($data);
+        $mechanic->update($data);
     }
 
     /**
@@ -70,6 +81,9 @@ class MechanicController extends Controller
      */
     public function destroy(Mechanic $mechanic)
     {
-        //
+        $mechanic->delete();
+
+        return to_route('mechanics.index');
     }
+
 }

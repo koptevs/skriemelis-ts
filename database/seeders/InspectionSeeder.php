@@ -306,7 +306,7 @@ class InspectionSeeder extends Seeder
                 DB::table('lifts')
                   ->where('id',
                       intval($lift_id))
-                  ->update(['manager_id' => intval($inspection['parbaude_valditajs'])]);
+                  ->update(['lift_manager_id' => intval($inspection['parbaude_valditajs'])]);
                 DB::table('lifts')
                   ->where('id',
                       intval($lift_id))

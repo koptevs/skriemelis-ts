@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class LiftSeeder extends Seeder
 {
+    // DB::listen(function ($sql){ var_dump($sql->sql, $sql->bindings);});
+    //
+    // DB::enableQueryLog();
+    // DB::getQueryLog();
 
     public $lifti_source;
 
@@ -37,13 +41,14 @@ class LiftSeeder extends Seeder
             DB::table('lifts')->insert(
                 [
                     'reg_number'        => $lifts['lifts_reg_nr'],
-                    'type'         => $lifts['lifts_tips'],
-//                    'lift_type'         => $lifts['lifts_tips'],
-                    'category'     => $lifts['lifts_kategorija'],
-//                    'lift_category'     => $lifts['lifts_kategorija'],
+                    'bir_url'           => $lifts['bir_url'] ?? null,
+                    'type'              => $lifts['lifts_tips'],
+                    //                    'lift_type'         => $lifts['lifts_tips'],
+                    'category'          => $lifts['lifts_kategorija'],
+                    //                    'lift_category'     => $lifts['lifts_kategorija'],
                     'factory_number'    => $lifts['lifts_rupn_nr'],
                     'model'             => $lifts['lifts_modelis'] ?? null,
-                    'speed'             => floatval($lifts['lifts_atrums'] ?? null),
+                    'speed'             => floatval($lifts['lifts_atrums']) ?? null,
                     'load'              => intval($lifts['lifts_celtspeja']),
                     'manufacturer'      => $lifts['lifts_razotajs'] ?? null,
                     // 'manufacture_year' => $lifts['lifts_razosanas_gada'] ?? null,
@@ -57,8 +62,9 @@ class LiftSeeder extends Seeder
                     'address' => $address,
 
                     'address_postal_code' => $lifts['lifts_adrese_indeks'],
-                    'latitude'            => isset($lifts['lifts_latitude']) ? floatval($lifts['lifts_latitude']) : null,
-                    'longitude'           => isset($lifts['lifts_longitude']) ? floatval($lifts['lifts_longitude']) : null,
+//                    'latitude'            => isset($lifts['latitude']) ? floatval($lifts['latitude']) : null,
+//                    'longitude'           => isset($lifts['longitude']) ? floatval($lifts['longitude']) : null,
+                    'google_coordinates'           => isset($lifts['google_coordinates']) ? $lifts['google_coordinates'] : null,
                     'notes'               => $lifts['lifts_piezimes'] ?? null,
                     //                    'lift_manager_id' => comes from inspection seeder
                     'entry_code'          => $lifts['lifts_code'] ?? null,

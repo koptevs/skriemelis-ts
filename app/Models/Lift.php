@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+//use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Lift extends Model
 {
+//    use HasFactory;
+
+    protected $table = 'lifts';
+
     protected $guarded = false;
 
     public function lift_manager(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -15,7 +20,7 @@ class Lift extends Model
 
     public function inspections()
     {
-        return $this->hasMany(Inspection::class);
+        return $this->hasMany(Inspection::class, 'lift_id', 'id');
     }
 
     //    protected $fillable = [

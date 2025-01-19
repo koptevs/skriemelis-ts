@@ -9,6 +9,8 @@ use App\Models\LiftManager;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
+//use Cassandra\Map; transferred from old
+
 class LiftController extends Controller
 {
 
@@ -16,7 +18,7 @@ class LiftController extends Controller
      * Display a listing of the resource.
      */
 
-    // Job::with('employer')->get(); //Laracasts 13. Eager Дщфвштп
+    // Job::with('employer')->get(); //Laracasts 13. Eager Loading
 
     public function index()
     {
@@ -78,9 +80,38 @@ class LiftController extends Controller
     {
         $data            = $request->validated();
         $data['user_id'] = auth()->id();
+
+        /* old
+        $lift = [
+            'reg_number'          => $data["regNumber"],
+            'factory_number'      => $data["factoryNumber"],
+            'lift_type'           => $data["liftType"],
+            'lift_category'       => $data["liftCategory"],
+            'model'               => $data["model"],
+            'speed'               => $data["speed"],
+            'load'                => intval($data["load"]),
+            'manufacturer'        => $data["manufacturer"],
+            'installer'           => $data["installer"],
+            'installation_year'   => intval($data["installationYear"]),
+            'floors_serviced'     => intval($data["floorsServiced"]),
+            'address'             => $data["address"],
+            'address_city'        => $data["addressCity"],
+            'address_country'     => $data["addressCountry"],
+            'address_postal_code' => $data["addressPostalCode"],
+            'lift_manager_id'     => $data["liftManager"],
+            'notes'               => $data["notes"],
+        ];
+        Lift::create($lift);
+        */
+
         Lift::create($data);
-        // dd($request->all());
+         dd($request->all());
         //
+        // TODO redirect after lift creation
+        /* old
+         return to_route('lifts.index');
+        // return redirect()->route('lifts.index');
+         */
     }
 
     /**
@@ -104,8 +135,10 @@ class LiftController extends Controller
      */
     public function edit(Lift $lift)
     {
+        $liftManagers = LiftManager::pluck('name', 'id');
+
         return Inertia::render(
-            'Lift/Edit'
+            'Lift/Edit', ['lift' => $lift, 'liftManagers' => $liftManagers]
         );
     }
 
@@ -114,7 +147,34 @@ class LiftController extends Controller
      */
     public function update(UpdateLiftRequest $request, Lift $lift)
     {
-        //
+        /* old
+                 $data = $request->validated();
+
+        $newLiftData = [
+            'reg_number'          => $data["regNumber"],
+            'factory_number'      => $data["factoryNumber"],
+            'lift_type'           => $data["liftType"],
+            'lift_category'       => $data["liftCategory"],
+            'model'               => $data["model"],
+            'speed'               => $data["speed"],
+            'load'                => intval($data["load"]),
+            'manufacturer'        => $data["manufacturer"],
+            'installer'           => $data["installer"],
+            'installation_year'   => intval($data["installationYear"]),
+            'floors_serviced'     => intval($data["floorsServiced"]),
+            'address'             => $data["address"],
+            'address_city'        => $data["addressCity"],
+            'address_country'     => $data["addressCountry"],
+            'address_postal_code' => $data["addressPostalCode"],
+            'lift_manager_id'     => $data["liftManager"],
+            'notes'               => $data["notes"],
+        ];
+//        dd($newLiftData);
+
+        $lift->update($newLiftData);
+
+        return to_route('lifts.index');
+         */
     }
 
     /**
@@ -122,7 +182,9 @@ class LiftController extends Controller
      */
     public function destroy(Lift $lift)
     {
-        //
+        $lift->delete();
+
+        return to_route('lifts.index');
     }
 
 }

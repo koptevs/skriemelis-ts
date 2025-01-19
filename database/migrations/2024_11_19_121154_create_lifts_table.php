@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('lifts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('manager_id')->nullable();
-//            $table->foreignId('lift_manager_id')->nullable();
+            $table->foreignId('lift_manager_id')->nullable();
+//            $table->foreignId('lift_manager_id')->index()->constraint('lift_managers')->nullable();
             $table->string('reg_number', 32)->unique();
-            $table->string('bir_url', 256)->default('');
+            $table->string('bir_url', 256)->nullable();
             $table->enum('type', ['elektriskais', 'hidrauliskais']);
 //            $table->enum('lift_type', ['elektriskais', 'hidrauliskais']);
             $table->enum('category', ['1', '2', '3', 'CE']);
@@ -33,8 +33,9 @@ return new class extends Migration
             $table->string('address_city', 64);
             $table->string('address', 256);
             $table->string('address_postal_code', 8);
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
+            $table->string('google_coordinates', 128)->nullable();
+//            $table->decimal('latitude', 24, 20)->nullable();
+//            $table->decimal('longitude', 24, 20)->nullable();
             $table->string('building_series', 16)->nullable();
             $table->text('notes')->nullable();
             $table->enum('inspection_status', ['X', '0', '1', '2', '3'])->default('X');
