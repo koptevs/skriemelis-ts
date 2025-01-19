@@ -4,7 +4,7 @@ import { Page, Text, View, StyleSheet, Font, Image } from "@react-pdf/renderer";
 import { sizes } from "../variables";
 
 const { headerHeight } = sizes;
-const protokolNumber = "04.45/538-24/02";
+// const protokolNumber = "04.45/538-24/02";
 
 Font.register({
     family: "Arial",
@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
     },
 });
 
-const PdfProtokolsNr = () => {
+const PdfProtokolsNr = ({protocolNumber}) => {
     return (
         <View style={styles.section}>
             <Text style={styles.text}>
-                LIFTA TEHNISKĀS PĀRBAUDES PROTOKOLS Nr. {protokolNumber}
+                LIFTA TEHNISKĀS PĀRBAUDES PROTOKOLS Nr. {protocolNumber}
             </Text>
         </View>
     );

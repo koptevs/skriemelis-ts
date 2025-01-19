@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     },
 });
 
-const ZinasParLifu = () => {
+const ZinasParLifu = ({lift}) => {
+    const {reg_number: regNr} = lift[0]
     return (
         <View style={styles.wrapper}>
             <View style={styles.row_1}>
@@ -116,7 +117,7 @@ const ZinasParLifu = () => {
                     <Text>Reģ. Nr.</Text>
                 </View>
                 <View style={styles.col_3}>
-                    <Text>4CL223322</Text>
+                    <Text>{regNr}</Text>
                 </View>
                 <View style={styles.col_4}>
                     <Text>Uzstādītājs:</Text>
