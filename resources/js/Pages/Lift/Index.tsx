@@ -106,13 +106,13 @@ const Index = ({
                         const status = lift.inspection_status;
 
                         if (status === "0") {
-                            statusMarkColor = "transparent";
+                            statusMarkColor = "bg-green-300";
                         } else if (status === "1") {
-                            statusMarkColor = "green";
+                            statusMarkColor = "bg-yellow-200";
                         } else if (status === "2") {
-                            statusMarkColor = "orange";
+                            statusMarkColor = "bg-orange-400";
                         } else if (status === "3") {
-                            statusMarkColor = "red";
+                            statusMarkColor = "bg-red-600";
                         }
 
                         return (
@@ -122,7 +122,13 @@ const Index = ({
                             >
                                 <Link href={route("lifts.show", lift.id)}>
                                     <h3 className="font-bold">
-                                        {lift.reg_number}
+                                        {lift.reg_number}{" "}
+                                        <span
+                                            className={
+                                                "bg-re ml-2 inline-block h-[10px] w-[10px] rounded-full " +
+                                                statusMarkColor
+                                            }
+                                        ></span>
                                     </h3>
                                     <p>{lift.address}</p>
                                 </Link>
