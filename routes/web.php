@@ -21,10 +21,6 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
-Route::get('/pdf', function () {
-    return Inertia::render('Pdf/Pdf');
-})->name('pdf');
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -32,8 +28,7 @@ Route::get('/dashboard', function () {
 //Middleware: auth
 
 Route::middleware('auth')->group(function () {
-
-//    Profile
+    //    Profile
 
     Route::get('/profile', [ProfileController::class, 'edit'])
          ->name('profile.edit');
@@ -44,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
          ->name('profile.destroy');
 
-//    Lifts
+    //    Lifts
 
     Route::get('/lifts', [LiftController::class, 'index'])
          ->name('lifts.index');
@@ -113,6 +108,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/inspections/{inspection}/edit',
         [InspectionController::class, 'edit'])
          ->name('inspections.edit');
+
+    Route::get('/inspections/{inspection}/protocol',
+        [InspectionController::class, 'protocol'])
+         ->name('inspections.protocol');
 
     Route::patch('/inspections/{inspection}',
         [InspectionController::class, 'update'])
