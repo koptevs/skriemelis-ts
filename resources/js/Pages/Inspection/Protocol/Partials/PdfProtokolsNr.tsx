@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const PdfProtokolsNr = ({protocolNumber}) => {
+const PdfProtokolsNr = ({ protocolNumber }: { protocolNumber: string }) => {
     return (
         <View style={styles.section}>
             <Text style={styles.text}>

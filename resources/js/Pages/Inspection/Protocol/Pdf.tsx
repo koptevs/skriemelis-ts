@@ -22,7 +22,6 @@ import Vertejumi from "./Partials/Vertejumi";
 import Novertejums from "./Partials/Novertejums";
 import NeatbilstibuApraksti from "./Partials/NeatbilstibuApraksti";
 
-
 // Create styles
 const styles = StyleSheet.create({
     page: {
@@ -34,7 +33,8 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-export default function ({inspection, lift, lift_manager, mechanic}) {
+export default function ({ inspection, lift, lift_manager, mechanic }) {
+    const { reg_number: regNr } = lift;
     const {
         protocol_number: protocolNumber,
         inspection_type: inspectionType,
@@ -55,32 +55,32 @@ export default function ({inspection, lift, lift_manager, mechanic}) {
         extra_check_reason: extra_check_reason,
         not_checked_forced: not_checked_forced,
         notes: notes,
-        notes_for_protokol: notes_for_protokol
+        notes_for_protokol: notes_for_protokol,
     } = inspection;
 
     return (
-        <PDFViewer style={{width: "100%", height: "100vh"}}>
+        <PDFViewer style={{ width: "100%", height: "100vh" }}>
             <Document>
                 <Page size="A4" style={styles.page}>
                     {/*<Text>{JSON.stringify(inspection)}</Text>*/}
                     {/*<Text>{JSON.stringify(inspectionType)}</Text>*/}
                     {/*<Text>{inspectionType}</Text>*/}
-                    <PdfHeader/>
-                    <PdfProtokolsNr protocolNumber={protocolNumber}/>
-                    <Rekviziti/>
-                    <RegistracijasNumurs/>
-                    <ParbaudesVeids inspectionType={inspectionType}/>
-                    <Normativi/>
-                    <ZinasParLifu lift={lift}/>
-                    <LiftaTips/>
-                    <Celtspeja/>
+                    <PdfHeader />
+                    <PdfProtokolsNr protocolNumber={protocolNumber} />
+                    <Rekviziti />
+                    <RegistracijasNumurs />
+                    <ParbaudesVeids inspectionType={inspectionType} />
+                    <Normativi />
+                    <ZinasParLifu regNr={regNr} />
+                    <LiftaTips />
+                    <Celtspeja />
                     {/* <div style={{ height: "20px" }}></div> */}
-                    <ParbaudesRezultati/>
-                    <Vertejumi/>
-                    <Novertejums/>
-                    <NeatbilstibuApraksti/>
+                    <ParbaudesRezultati />
+                    <Vertejumi />
+                    <Novertejums />
+                    <NeatbilstibuApraksti />
                 </Page>
             </Document>
         </PDFViewer>
-    )
+    );
 }

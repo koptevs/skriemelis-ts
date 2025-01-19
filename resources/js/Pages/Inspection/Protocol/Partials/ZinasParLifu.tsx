@@ -105,8 +105,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const ZinasParLifu = ({lift}) => {
-    const {reg_number: regNr} = lift[0]
+const ZinasParLifu = ({ regNr }: { regNr: string }) => {
     return (
         <View style={styles.wrapper}>
             <View style={styles.row_1}>

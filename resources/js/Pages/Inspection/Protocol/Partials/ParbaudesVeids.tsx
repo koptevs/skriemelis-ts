@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const ParbaudesVeids = ({inspectionType}) => {
+const ParbaudesVeids = ({ inspectionType }: { inspectionType: string }) => {
     return (
         <View style={styles.wrapper}>
             <View style={styles.firstCell}>
@@ -62,19 +62,27 @@ const ParbaudesVeids = ({inspectionType}) => {
             </View>
             <View style={styles.cell}>
                 <Text style={styles.text}>Pirmreizējā*</Text>
-                <Text style={styles.emptyBox}>{inspectionType === 'Pirmreizējā' ? 'x' : null}</Text>
+                <Text style={styles.emptyBox}>
+                    {inspectionType === "Pirmreizējā" ? "x" : null}
+                </Text>
             </View>
             <View style={styles.cell}>
                 <Text style={styles.text}>Kārtējā</Text>
-                <Text style={styles.emptyBox}>{inspectionType === 'Kārtējā' ? 'x' : null}</Text>
+                <Text style={styles.emptyBox}>
+                    {inspectionType === "Kārtējā" ? "x" : null}
+                </Text>
             </View>
             <View style={styles.cell}>
                 <Text style={styles.text}>Ārpuskārtas</Text>
-                <Text style={styles.emptyBox}>{inspectionType === 'Ārpuskārtas' ? 'x' : null}</Text>
+                <Text style={styles.emptyBox}>
+                    {inspectionType === "Ārpuskārtas" ? "x" : null}
+                </Text>
             </View>
             <View style={styles.cell}>
                 <Text style={styles.text}>Atkārtotā</Text>
-                <Text style={styles.emptyBox}>{inspectionType === 'Atkārtotā' ? 'x' : null}</Text>
+                <Text style={styles.emptyBox}>
+                    {inspectionType === "Atkārtotā" ? "x" : null}
+                </Text>
             </View>
         </View>
     );
