@@ -21,10 +21,25 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import { Lock } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
+import React from "react";
 
 const formSchema = z.object({
     regNumber: z
@@ -33,10 +48,10 @@ const formSchema = z.object({
             message: "regNumber is required and must look like 5CL223322",
         }),
     factoryNumber: z.string(),
-    liftType: z.enum(["elektriskais", "hidrauliskais"], {
+    type: z.enum(["elektriskais", "hidrauliskais"], {
         message: "Can be of value 'elektriskais' or 'hidrauliskais'",
     }),
-    liftCategory: z.enum(["CE", "1", "2", "3"], {
+    category: z.enum(["CE", "1", "2", "3"], {
         message: "Can be of value 'CE', '1', '2', '3'",
     }),
     model: z.string(),
@@ -50,15 +65,16 @@ const formSchema = z.object({
     addressCity: z.string(),
     addressCountry: z.string(),
     addressPostalCode: z.string(),
-    liftManager: z.string(),
-    notes: z.string(),
-    latitude: z.string(),
-    longitude: z.string(),
+    liftManager: z.string().min(1, {
+        message: "Field is required блин!",
+    }),
+    googleCoordinates: z.string(),
     birUrl: z.string(),
     buildingSeries: z.string(),
     inspectionStatus: z.string(),
     entryCode: z.string(),
     nextInspectionDate: z.string(),
+    notes: z.string(),
 });
 
 export default function Create({
@@ -66,14 +82,15 @@ export default function Create({
 }: {
     liftManagers: { name: string; id: string }[];
 }) {
+    const [openSelectManager, setOpenSelectManager] = React.useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         mode: "onTouched",
         defaultValues: {
-            regNumber: "",
+            regNumber: "5CL223322",
             factoryNumber: "",
-            liftType: `elektriskais`,
-            liftCategory: "CE", //
+            type: `elektriskais`,
+            category: "CE", //
             model: "",
             speed: "",
             load: "",
@@ -86,14 +103,13 @@ export default function Create({
             addressCountry: "Latvija",
             addressPostalCode: "LV-1000",
             liftManager: "",
-            notes: "",
-            latitude: "",
-            longitude: "",
+            googleCoordinates: "",
             birUrl: "",
             buildingSeries: "",
             inspectionStatus: "",
             entryCode: "",
             nextInspectionDate: "",
+            notes: "",
         },
     });
 
@@ -117,9 +133,9 @@ export default function Create({
         // ✅ This will be type-safe and validated.
         console.log("Values: ", data);
         // const JSONData = JSON.stringify(values);
-        // router.post(route("lifts.store"), data, {
-        //     errorBag: "createLift",
-        // });
+        router.post(route("lifts.store"), data, {
+            errorBag: "createLift",
+        });
     }
 
     const serviceCompanies = Object.entries(liftManagers).map(function (entry) {
@@ -128,6 +144,7 @@ export default function Create({
             label: `${entry[0]} - ${entry[1]}`,
         };
     });
+    console.log(serviceCompanies);
     return (
         <AuthenticatedLayout
             header={
@@ -164,7 +181,8 @@ export default function Create({
             </div> */}
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <div className="mb-4 mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                        <div className="mb-4 mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                            {/* Form field: regNumber */}
                             <FormField
                                 control={form.control}
                                 name="regNumber"
@@ -186,6 +204,7 @@ export default function Create({
                                     </FormItem>
                                 )}
                             />
+                            {/* Form field: factoryNumber */}
                             <FormField
                                 control={form.control}
                                 name="factoryNumber"
@@ -194,7 +213,7 @@ export default function Create({
                                         <FormLabel>Factory Number</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="May be empty"
+                                                // placeholder="May be empty"
                                                 {...field}
                                                 autoComplete="factoryNumber"
                                                 // className="min-w-[250px] sm:min-w-[400px]"
@@ -207,17 +226,101 @@ export default function Create({
                                     </FormItem>
                                 )}
                             />
+                            {/* Form field: type */}
+
                             <FormField
                                 control={form.control}
-                                name="liftType"
+                                name="type"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Lift type</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={"elektriskais"}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Lift type" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem
+                                                    value={"elektriskais"}
+                                                >
+                                                    {"Elektriskais"}
+                                                </SelectItem>
+                                                <SelectItem
+                                                    value={"hidrauliskais"}
+                                                >
+                                                    {"Hidrauliskais"}
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormDescription>
+                                            {/* You can manage email addresses in your{" "} */}
+                                            {/* <Link href="/examples/forms">
+                                            email settings
+                                        </Link>
+                                        . */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: category */}
+                            <FormField
+                                control={form.control}
+                                name="type"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift category</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={"CE"}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Lift category" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value={"CE"}>
+                                                    {"CE"}
+                                                </SelectItem>
+                                                <SelectItem value={"1"}>
+                                                    {"1"}
+                                                </SelectItem>
+                                                <SelectItem value={"2"}>
+                                                    {"2"}
+                                                </SelectItem>
+                                                <SelectItem value={"3"}>
+                                                    {"3"}
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormDescription>
+                                            {/* You can manage email addresses in your{" "} */}
+                                            {/* <Link href="/examples/forms">
+                                            email settings
+                                        </Link>
+                                        . */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: model */}
+                            <FormField
+                                control={form.control}
+                                name="model"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift model</FormLabel>
                                         <FormControl>
                                             <Input
                                                 // placeholder="shadcn"
                                                 {...field}
-                                                autoComplete="liftType"
+                                                autoComplete="model"
                                                 // className="min-w-[250px] sm:min-w-[400px]"
                                             />
                                         </FormControl>
@@ -228,13 +331,333 @@ export default function Create({
                                     </FormItem>
                                 )}
                             />
+                            {/* Form field: speed */}
+                            <FormField
+                                control={form.control}
+                                name="speed"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift speed</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="speed"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: load */}
+                            <FormField
+                                control={form.control}
+                                name="load"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift load</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="load"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: manufacturer */}
+                            <FormField
+                                control={form.control}
+                                name="manufacturer"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift manufacturer</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="manufacturer"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: installer */}
+                            <FormField
+                                control={form.control}
+                                name="installer"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift installer</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="installer"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: installationYear */}
+                            <FormField
+                                control={form.control}
+                                name="installationYear"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Lift installation year
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="installationYear"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: floorsServiced */}
+                            <FormField
+                                control={form.control}
+                                name="floorsServiced"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Lift floors serviced
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="floorsServiced"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: address */}
+                            <FormField
+                                control={form.control}
+                                name="address"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift address</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="address"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: addressCity */}
+                            <FormField
+                                control={form.control}
+                                name="addressCity"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift address City</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="addressCity"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: addressCountry */}
+                            <FormField
+                                control={form.control}
+                                name="addressCountry"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Lift address Country
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="addressCountry"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: addressPostalCode */}
+                            <FormField
+                                control={form.control}
+                                name="addressPostalCode"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Lift addressPostalCode
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="addressPostalCode"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: manager */}
                             <FormField
                                 control={form.control}
                                 name="liftManager"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <Select
+                                        <FormLabel>
+                                            Lift Manager
+                                            {/* Lift Manager{JSON.stringify(field)} */}
+                                        </FormLabel>
+                                        {/* ############################################### */}
+                                        <Popover
+                                            open={openSelectManager}
+                                            onOpenChange={setOpenSelectManager}
+                                        >
+                                            {/* openSelectManager */}
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant="outline"
+                                                        role="combobox"
+                                                        className={cn(
+                                                            "w-full justify-between",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value
+                                                            ? serviceCompanies.find(
+                                                                  (
+                                                                      serviceCompany
+                                                                  ) =>
+                                                                      serviceCompany.id ===
+                                                                      field.value
+                                                              )?.label
+                                                            : "Select Lift Manager"}
+                                                        <ChevronsUpDown className="opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent>
+                                                {/* <PopoverContent className="w-[200px] p-0"> */}
+                                                <Command>
+                                                    <CommandInput
+                                                        placeholder="Search framework..."
+                                                        className="h-9"
+                                                    />
+                                                    <CommandList>
+                                                        <CommandEmpty>
+                                                            No Lift Manager
+                                                            found.
+                                                        </CommandEmpty>
+                                                        <CommandGroup>
+                                                            {serviceCompanies.map(
+                                                                (
+                                                                    serviceCompany
+                                                                ) => (
+                                                                    <CommandItem
+                                                                        value={
+                                                                            serviceCompany.label
+                                                                        }
+                                                                        key={
+                                                                            serviceCompany.id
+                                                                        }
+                                                                        onSelect={() => {
+                                                                            console.log(
+                                                                                serviceCompany.label
+                                                                            );
+                                                                            form.setValue(
+                                                                                "liftManager",
+                                                                                serviceCompany.id
+                                                                            );
+                                                                            setOpenSelectManager(
+                                                                                false
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            serviceCompany.label
+                                                                        }
+                                                                        <Check
+                                                                            className={cn(
+                                                                                "ml-auto",
+                                                                                serviceCompany.id ===
+                                                                                    field.value
+                                                                                    ? "opacity-100"
+                                                                                    : "opacity-0"
+                                                                            )}
+                                                                        />
+                                                                    </CommandItem>
+                                                                )
+                                                            )}
+                                                        </CommandGroup>
+                                                    </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+                                        {/* ############################################### */}
+                                        {/* <Select
                                             onValueChange={field.onChange}
                                             defaultValue={field.value}
                                         >
@@ -263,7 +686,8 @@ export default function Create({
                                                     }
                                                 )}
                                             </SelectContent>
-                                        </Select>
+                                        </Select> */}
+                                        {/* ######################################### */}
                                         <FormDescription>
                                             {/* You can manage email addresses in your{" "} */}
                                             {/* <Link href="/examples/forms">
@@ -276,37 +700,170 @@ export default function Create({
                                 )}
                             />
 
-                            {/*  <Autocomplete
-                            id="liftManager"
-                            // disablePortal
-                            clearOnEscape
-                            options={serviceCompanies}
-                            // sx={{ width: 300 }}
-                            fullWidth
-                            autoHighlight
-                            value={
-                                value
-                                    ? (serviceCompanies.find((option) => {
-                                          return value === option.id;
-                                      }) ?? null)
-                                    : null
-                            }
-                            onChange={(event, newValue) => {
-                                onChange(newValue ? newValue.id : null);
-                            }}
-                            getOptionLabel={(option) => {
-                                return option.label;
-                            }}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Lift Manager"
-                                    fullWidth
-                                    size="small"
-                                />
-                            )}
-                        /> */}
+                            {/* ############################## */}
+
+                            {/* Form field: latitude */}
+                            <FormField
+                                control={form.control}
+                                name="googleCoordinates"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Lift googleCoordinates
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="googleCoordinates"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: birUrl */}
+                            <FormField
+                                control={form.control}
+                                name="birUrl"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift BIR Url</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="birUrl"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: buildingSeries */}
+                            <FormField
+                                control={form.control}
+                                name="buildingSeries"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Lift buildingSeries
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="buildingSeries"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: inspectionStatus */}
+                            <FormField
+                                control={form.control}
+                                name="inspectionStatus"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Lift inspectionStatus
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="inspectionStatus"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: entryCode */}
+                            <FormField
+                                control={form.control}
+                                name="entryCode"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lift entryCode</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="entryCode"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            {/* Form field: nextInspectionDate */}
+                            <FormField
+                                control={form.control}
+                                name="nextInspectionDate"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Lift nextInspectionDate
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                // placeholder="shadcn"
+                                                {...field}
+                                                autoComplete="nextInspectionDate"
+                                                // className="min-w-[250px] sm:min-w-[400px]"
+                                            />
+                                        </FormControl>
+                                        <FormDescription>
+                                            {/* Enter BIR reg. nr. */}
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
+                        {/* Form field: notes */}
+                        <FormField
+                            control={form.control}
+                            name="notes"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Lift notes</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            {...field}
+                                            placeholder="Tell us a little bit about yourself"
+                                            className="resize-none"
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        {/* Enter BIR reg. nr. */}
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <Button type="submit">
                             {" "}
                             {/* disabled={!form.formState.isValid} */}
