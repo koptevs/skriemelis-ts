@@ -1,4 +1,5 @@
 import React from "react";
+import type { Lift } from "@/types";
 import {
     PDFViewer,
     Page,
@@ -33,7 +34,17 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-export default function ({ inspection, lift, lift_manager, mechanic }) {
+export default function ({
+    inspection,
+    lift,
+    lift_manager,
+    mechanic,
+}: {
+    inspection: any;
+    lift: Lift;
+    lift_manager: any;
+    mechanic: any;
+}) {
     const { reg_number: regNr } = lift;
     const {
         protocol_number: protocolNumber,

@@ -131,7 +131,6 @@ export default function Create({
         });
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log("Values: ", data);
         // const JSONData = JSON.stringify(values);
         router.post(route("lifts.store"), data, {
             errorBag: "createLift",
@@ -144,7 +143,6 @@ export default function Create({
             label: `${entry[0]} - ${entry[1]}`,
         };
     });
-    console.log(serviceCompanies);
     return (
         <AuthenticatedLayout
             header={
@@ -624,9 +622,6 @@ export default function Create({
                                                                             serviceCompany.id
                                                                         }
                                                                         onSelect={() => {
-                                                                            console.log(
-                                                                                serviceCompany.label
-                                                                            );
                                                                             form.setValue(
                                                                                 "liftManager",
                                                                                 serviceCompany.id
