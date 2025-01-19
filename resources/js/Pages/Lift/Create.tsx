@@ -268,7 +268,7 @@ export default function Create({
                             {/* Form field: category */}
                             <FormField
                                 control={form.control}
-                                name="type"
+                                name="category"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Lift category</FormLabel>
