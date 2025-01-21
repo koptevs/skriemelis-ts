@@ -43,3 +43,14 @@ export interface Lift {
     created_at: string;
     updated_at: string;
 }
+export interface Mechanic {
+    id: number;
+    name: string;
+    personal_code: string;
+    company: string;
+    phone: string;
+    email: string;
+    notes: string;
+    created_at: string;
+    updated_at: string;
+}

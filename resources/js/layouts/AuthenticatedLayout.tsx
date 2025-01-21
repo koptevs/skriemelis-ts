@@ -39,12 +39,17 @@ export default function Authenticated({
                                 >
                                     Dashboard
                                 </NavLink>
-
                                 <NavLink
                                     href={route("lifts.index")}
                                     active={route().current("lifts.index")}
                                 >
                                     Lifti
+                                </NavLink>
+                                <NavLink
+                                    href={route("mechanics.index")}
+                                    active={route().current("mechanics.index")}
+                                >
+                                    Mechanics
                                 </NavLink>
                             </div>
                         </div>

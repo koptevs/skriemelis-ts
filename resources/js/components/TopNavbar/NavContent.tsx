@@ -1,14 +1,14 @@
 import React from "react";
 // import { usePathname } from "next/navigation";
-import {Slot} from "@radix-ui/react-slot";
-import {SheetClose} from "@/components/ui/sheet";
-import {Home, Beer, Calendar} from "lucide-react";
-import {cn} from "@/lib/utils";
-import {Link, usePage} from "@inertiajs/react";
+import { Slot } from "@radix-ui/react-slot";
+import { SheetClose } from "@/components/ui/sheet";
+import { Home, Beer, Calendar, SquareArrowUp, Users } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function NavContent() {
     // const pathname = usePathname();
-    const {url, component} = usePage();
+    const { url, component } = usePage();
 
     const navLinks: {
         icon: React.ReactNode;
@@ -16,17 +16,27 @@ export default function NavContent() {
         label: string;
     }[] = [
         {
-            icon: <Home/>,
+            icon: <Home />,
             path: "/",
             label: "Home",
         },
         {
-            icon: <Calendar/>,
+            icon: <SquareArrowUp />,
+            path: "/lifts",
+            label: "Lifts",
+        },
+        {
+            icon: <Users />,
+            path: "/mechanics",
+            label: "Mechanics",
+        },
+        {
+            icon: <Calendar />,
             path: "/dashboard",
             label: "Dashboard",
         },
         {
-            icon: <Beer/>,
+            icon: <Beer />,
             path: "/about",
             label: "About",
         },
@@ -70,4 +80,4 @@ export default function NavContent() {
             })}
         </div>
     );
-};
+}
