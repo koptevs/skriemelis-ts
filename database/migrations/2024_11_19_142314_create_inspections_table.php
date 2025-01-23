@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->string('protocol_number', 32);
             $table->foreignId('lift_id')->index()->constrained('lifts')->nullable();
+//            $table->foreign('lift_id')->references('id')->on('lifts')->cascadeOnDelete();
             //            $table->integer('lift_id');
 
             $table->enum('inspection_type', [
