@@ -17,6 +17,13 @@ use Inertia\Inertia;
 //        'phpVersion'     => PHP_VERSION,
 //    ]);
 //});
+//Route Parameters
+/* to define that a route should only match if...
+ Route::get('posts/{id  }/{slug}', function ($id, $slug) {
+//
+})->where(['id' => '[0-9]+', 'slug' => '[A-Za-z]+']);
+ */
+
 Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
