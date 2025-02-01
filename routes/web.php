@@ -63,6 +63,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/lifts/{lift}/edit', [LiftController::class, 'edit'])
          ->name('lifts.edit');
 
+    Route::get('/lifts/{lift}/checklist', [LiftController::class, 'checklist'])
+         ->name('lifts.checklist');
+
     Route::patch('/lifts/{lift}', [LiftController::class, 'update'])
          ->name('lifts.update');
 

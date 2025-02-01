@@ -142,6 +142,28 @@ class LiftController extends Controller
         );
     }
 
+// checklist
+
+   /**
+     * Show the form for editing the specified resource.
+     */
+    public function checklist(Lift $lift)
+    {
+
+
+        $lift_with_inspections = Lift::with('inspections')->find($lift->id);
+            //    dd($lift_with_inspections->inspections);
+            //    dd($lift_with_inspections);
+
+
+        $liftManagers = LiftManager::pluck('name', 'id');
+
+        return Inertia::render(
+            'Lift/Checklist/Pdf', ['lift' => $lift_with_inspections]
+        );
+    }
+
+
     /**
      * Update the specified resource in storage.
      */
