@@ -1,13 +1,11 @@
 import { View, StyleSheet } from "@react-pdf/renderer";
-import { sizes, debug } from "../variables";
-
-const { zazhimHeight, checkListWidth } = sizes;
+import { sizes as sz, debug } from "../variables";
 
 const styles = StyleSheet.create({
     zazhim: {
-        width: checkListWidth,
-        height: zazhimHeight,
-        backgroundColor: debug ? "#aabbff" : "transparent",
+        width: sz.w_full,
+        height: sz.zazhimHeight,
+        // backgroundColor: debug ? "#aabbff" : "transparent",
     },
 });
 

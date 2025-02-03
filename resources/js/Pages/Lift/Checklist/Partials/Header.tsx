@@ -1,11 +1,23 @@
 //@ts-nocheck
 import React from "react";
-import { Page, Text, View, StyleSheet, Font, Image } from "@react-pdf/renderer";
+import {
+    Page,
+    Text,
+    View,
+    StyleSheet,
+    Font,
+    Image,
+    Rect,
+    Svg,
+    Polygon,
+    Path,
+} from "@react-pdf/renderer";
 
 import { sizes, borders, debug } from "../variables";
+import QrCode from "./QrCode";
 
 const { headerHeight, checkListWidth } = sizes;
-const { borderNormal, borderThick } = borders;
+const { borderNormal, borderThin } = borders;
 
 Font.register({
     family: "Arial",
@@ -14,6 +26,14 @@ Font.register({
 Font.register({
     family: "ArialBold",
     src: "/fonts/ArialBold.ttf",
+});
+Font.register({
+    family: "Georgia",
+    src: "/fonts/Georgia.ttf",
+});
+Font.register({
+    family: "GeorgiaBold",
+    src: "/fonts/GeorgiaBold.ttf",
 });
 
 const commonLineStyles = {
@@ -31,43 +51,50 @@ const styles = StyleSheet.create({
         // border: "0.1mm solid black",
         // borderBottom: borderThick,
         // paddingBottom: "1mm",
-        backgroundColor: debug ? "#ff7e7e" : "transparent",
+        // backgroundColor: debug ? "#ff7e7e" : "transparent",
     },
     textBlockWrapper: {
         width: "115mm",
         display: "flex",
         flexDirection: "column",
-        backgroundColor: debug ? "#777eee" : "transparent",
+        // backgroundColor: debug ? "#777eee" : "transparent",
     },
     firstLine: {
         ...commonLineStyles,
         ...{
-            borderBottom: borderNormal,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            borderBottom: borderThin,
         },
     },
     secondLine: {
+        display: "flex",
+        flexDirection: "row",
         height: `${20 / 3}mm`,
         alignItems: "center",
-        justifyContent: "center",
-        borderBottom: borderNormal,
+        justifyContent: "flex-end",
+        borderBottom: borderThin,
     },
     thirdLine: {
+        display: "flex",
+        flexDirection: "row",
         height: `${20 / 3}mm`,
         alignItems: "center",
-        justifyContent: "center",
-        borderBottom: borderNormal,
+        justifyContent: "space-between",
+        borderBottom: borderThin,
     },
     firstLineText: {
-        fontFamily: "ArialBold",
-        fontSize: "4mm",
+        fontFamily: "GeorgiaBold",
+        fontSize: "5mm",
     },
     secondLineText: {
-        fontFamily: "Arial",
+        fontFamily: "ArialBold",
         fontSize: "4mm",
         // paddingBottom: "1mm",
     },
     thirdLineText: {
-        fontFamily: "Arial",
+        fontFamily: "GeorgiaBold",
         fontSize: "4mm",
         // paddingTop: "1mm",
         // paddingBottom: "0.5mm",
@@ -82,22 +109,37 @@ const styles = StyleSheet.create({
     },
 });
 
-const Header = () => {
+const Header = ({
+    regNr,
+    address,
+    factoryNumber,
+    speed,
+    load,
+    installationYear,
+    floorsServiced,
+    entryCode,
+    birUrl,
+}) => {
     return (
         <View style={styles.wrapper}>
             <View style={styles.textBlockWrapper}>
                 <View style={styles.firstLine}>
-                    <Text style={styles.firstLineText}>First Line</Text>
+                    <Text style={styles.firstLineText}>{regNr}</Text>
+                    <Text style={styles.firstLineText}>{address}</Text>
                 </View>
                 <View style={styles.secondLine}>
-                    <Text style={styles.secondLineText}>Second Line</Text>
+                    <Text style={styles.secondLineText}>
+                        {installationYear} g. / {load}kg. / {speed} m/s /{" "}
+                        {floorsServiced} st.
+                    </Text>
                 </View>
                 <View style={styles.thirdLine}>
-                    <Text style={styles.thirdLineText}>Third Line</Text>
+                    <Text style={styles.secondLineText}>{entryCode}</Text>
+                    <Text style={styles.thirdLineText}>{factoryNumber}</Text>
                 </View>
             </View>
             <View style={styles.qrCode}>
-                <Image style={styles.image} src="/assets/images/tuv.jpg" />
+                <QrCode url={birUrl ? birUrl : "https://bir.lv"} />
             </View>
         </View>
     );
