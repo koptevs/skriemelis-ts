@@ -9,15 +9,24 @@ import {
     Document,
     StyleSheet,
     Font,
+    Image,
+    Svg,
 } from "@react-pdf/renderer";
+import { sharedStyles } from "./variables";
 import Zazhim from "./Partials/Zazhim";
 import Header from "./Partials/Header";
 
 import type { LiftWithInspections } from "@/types";
 import { sizes, borders, debug } from "./variables";
+import Bedre from "./Partials/Bedre";
+import Kabine from "./Partials/Kabine";
+import SectionHeader from "./Partials/SectionHeader";
+import Mashinka from "./Partials/Mashinka";
+import JumtsUnShahta from "./Partials/JumtsUnShahta";
 
-const { zazhimHeight, checkListPaddingX } = sizes;
-const { borderNormal, borderThick } = borders;
+const { zazhimHeight, checkListPaddingX, checkListWidth, col_1, col_2, col_4 } =
+    sizes;
+const { borderNormal, borderThick, borderThin } = borders;
 
 Font.register({
     family: "Arial",
@@ -36,12 +45,8 @@ const styles = StyleSheet.create({
         // backgroundColor: "#ccffee",
         // marginRight: checkListPaddingX,
         marginLeft: checkListPaddingX,
+        // backgroundColor: "yellow",
         // paddingLeft: checkListPaddingX,
-    },
-
-    text: {
-        fontFamily: "Arial",
-        fontSize: "3.25mm",
     },
 });
 
@@ -82,6 +87,13 @@ export default function ({ lift }: { lift: LiftWithInspections }) {
     //     notes_for_protokol: notes_for_protokol,
     // } = inspection;
 
+    const shortAddress = address
+        .replace(/bulvāris/i, "b.")
+        .replace(/prospects/i, "pr.")
+        .replace(/gatve/i, "g.")
+        .replace(/Annas Meierovica/i, "A.M.")
+        .replace(/ iela/i, "");
+
     const inspectionsNewestFirst = inspections
         .sort(
             (insp1, insp2) => dayjs(insp2.date_start) - dayjs(insp1.date_start)
@@ -103,11 +115,11 @@ export default function ({ lift }: { lift: LiftWithInspections }) {
     return (
         <PDFViewer style={{ width: "100%", height: "100vh" }}>
             <Document>
-                <Page size="A4" style={styles.page}>
+                <Page size="A5" style={styles.page}>
                     <Zazhim />
                     <Header
                         regNr={regNr}
-                        address={address}
+                        address={shortAddress}
                         factoryNumber={factoryNumber}
                         speed={speed}
                         load={load}
@@ -116,10 +128,22 @@ export default function ({ lift }: { lift: LiftWithInspections }) {
                         entryCode={entryCode}
                         birUrl={birUrl}
                     />
+                    <SectionHeader header="BEDRE" />
+                    <Bedre />
+                    <SectionHeader header="KABĪNE" />
+                    <Kabine isCE={parseInt(installationYear) >= 2000} />
+                    <SectionHeader header="MAŠĪNTELPA" />
+                    <Mashinka />
+                    <SectionHeader header="KABĪNES JUMTS UN ŠAHTA" />
+                    <JumtsUnShahta />
+                    <View style={sharedStyles.lineWrapper}></View>
+                    <View style={sharedStyles.lineWrapper}></View>
+                    <View style={sharedStyles.lineWrapper}></View>
+
                     {inspectionsNewestFirst[0].whatsWrong1.map((nonComp) => (
-                        <Text style={styles.text}>{nonComp}</Text>
+                        <Text style={{ ...sharedStyles.text }}>{nonComp}</Text>
                     ))}
-                    <Text style={styles.text}>
+                    <Text style={{ ...sharedStyles.text }}>
                         {JSON.stringify(inspectionsNewestFirst[0], null, 2)}
                         {/* dayjs(inspection.date_end).format(
                                             "DD.MM.YYYY"

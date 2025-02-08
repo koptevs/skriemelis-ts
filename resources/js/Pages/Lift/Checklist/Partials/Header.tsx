@@ -17,7 +17,7 @@ import { sizes, borders, debug } from "../variables";
 import QrCode from "./QrCode";
 
 const { headerHeight, checkListWidth } = sizes;
-const { borderNormal, borderThin } = borders;
+const { borderNormal, borderThin, borderThick } = borders;
 
 Font.register({
     family: "Arial",
@@ -36,7 +36,7 @@ Font.register({
     src: "/fonts/GeorgiaBold.ttf",
 });
 
-const commonLineStyles = {
+const commonHeaderLineStyles = {
     height: `${20 / 3}mm`,
     alignItems: "center",
     justifyContent: "center",
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         height: headerHeight,
+        // marginBottom: "5mm",
         // border: "0.1mm solid black",
         // borderBottom: borderThick,
         // paddingBottom: "1mm",
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
         // backgroundColor: debug ? "#777eee" : "transparent",
     },
     firstLine: {
-        ...commonLineStyles,
+        ...commonHeaderLineStyles,
         ...{
             display: "flex",
             flexDirection: "row",
@@ -107,6 +108,13 @@ const styles = StyleSheet.create({
         width: "20mm",
         height: "20mm",
     },
+    uzlime: {
+        width: "30mm",
+        height: `${20 / 3}mm`,
+        // border: "2px solid rgba(255, 125, 125, 0.7)",
+        borderBottom: "2px solid hsla(0 87% 50% / 0.48)",
+        // marginBottom: "1mm",
+    },
 });
 
 const Header = ({
@@ -121,20 +129,29 @@ const Header = ({
     birUrl,
 }) => {
     return (
-        <View style={styles.wrapper}>
+        <View
+            style={{
+                ...styles.wrapper,
+                // backgroundColor: "tomato",
+            }}
+        >
             <View style={styles.textBlockWrapper}>
                 <View style={styles.firstLine}>
                     <Text style={styles.firstLineText}>{regNr}</Text>
+
+                    <View style={styles.uzlime}></View>
                     <Text style={styles.firstLineText}>{address}</Text>
                 </View>
                 <View style={styles.secondLine}>
-                    <Text style={styles.secondLineText}>
+                    <Text style={{ ...styles.secondLineText, fontSize: "3mm" }}>
                         {installationYear} g. / {load}kg. / {speed} m/s /{" "}
                         {floorsServiced} st.
                     </Text>
                 </View>
                 <View style={styles.thirdLine}>
-                    <Text style={styles.secondLineText}>{entryCode}</Text>
+                    <Text style={{ ...styles.secondLineText, fontSize: "3mm" }}>
+                        {entryCode}
+                    </Text>
                     <Text style={styles.thirdLineText}>{factoryNumber}</Text>
                 </View>
             </View>
