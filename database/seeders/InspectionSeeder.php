@@ -25,6 +25,8 @@ class InspectionSeeder extends Seeder
 
     public $inspections_02_2024;
 
+    public $inspections_02_2025;
+
     public $inspections_02;
 
 
@@ -53,8 +55,15 @@ class InspectionSeeder extends Seeder
         );
         ksort($this->inspections_2024);
 
+        $this->inspections_2025 = array_filter(
+            array_filter($this->inspections_source,
+                fn($key) => substr($key, -2) === '02', ARRAY_FILTER_USE_KEY),
+            fn($key) => substr($key, -5) === '25/02', ARRAY_FILTER_USE_KEY
+        );
+        ksort($this->inspections_2025);
+
         $this->inspections_02 = array_merge($this->inspections_2022,
-            $this->inspections_2023, $this->inspections_2024);
+            $this->inspections_2023, $this->inspections_2024, $this->inspections_2025);
 
         //        dd($this->inspections_02);
         //dd($this->inspections_source);
