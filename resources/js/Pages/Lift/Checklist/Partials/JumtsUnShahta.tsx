@@ -36,7 +36,39 @@ const JumtsUnShahta = ({ isCE }: { isCE: boolean }) => {
                         src="/assets/images/patveruma_zime.png"
                     />
                 </View>
-                <Gap size={77} />
+                {/* <Gap size={77} /> */}
+                <Gap size={28} />
+                <View
+                    style={{
+                        ...sharedStyles.col_4,
+                        // backgroundColor: "lime",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Text
+                        style={{
+                            ...sharedStyles.textSansBold,
+                            justifyContent: "flex-end",
+                            // color: "red",
+                        }}
+                    >
+                        Трос
+                    </Text>
+                    <Image
+                        style={{ ...sharedStyles.image, marginLeft: 0 }}
+                        src="/assets/images/skriemelis.png"
+                    />
+                    <View
+                        style={{
+                            ...sharedStyles.box,
+                            width: "5mm",
+                            marginLeft: "2mm",
+
+                            // backgroundColor: "tomato",
+                        }}
+                    ></View>
+                </View>
+                <Gap size={10} />
                 <View
                     style={{
                         ...sharedStyles.col_5,
@@ -112,7 +144,50 @@ const JumtsUnShahta = ({ isCE }: { isCE: boolean }) => {
                         // backgroundColor: "tomato",
                     }}
                 ></View>
-                <Gap size={57} />
+                <Gap size={22} />
+                <View
+                    style={{
+                        ...sharedStyles.col_4,
+                        // backgroundColor: "lime",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Text
+                        style={{
+                            ...sharedStyles.textSansBold,
+                            justifyContent: "flex-end",
+                            // color: "red",
+                        }}
+                    >
+                        Трос
+                    </Text>
+                    <Image
+                        style={{ ...sharedStyles.image, marginLeft: 0 }}
+                        src="/assets/images/os.png"
+                    />
+                    <View
+                        style={{
+                            ...sharedStyles.box,
+                            width: "5mm",
+                            marginLeft: "2mm",
+
+                            // backgroundColor: "tomato",
+                        }}
+                    ></View>
+                </View>
+                <Gap size={2} />
+                <View
+                    style={{
+                        ...sharedStyles.col_2,
+                        // backgroundColor: "lime",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Image
+                        style={{ ...sharedStyles.image, marginLeft: 7 }}
+                        src="/assets/images/atsperes.png"
+                    />
+                </View>
                 <View
                     style={{
                         ...sharedStyles.col_5,

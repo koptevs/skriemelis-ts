@@ -11,8 +11,17 @@ import {
     Font,
     Image,
     Svg,
+    PDFDownloadLink,
 } from "@react-pdf/renderer";
-import { sharedStyles } from "./variables";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { Download } from "lucide-react";
+import { Gap, sharedStyles } from "./variables";
 import Zazhim from "./Partials/Zazhim";
 import Header from "./Partials/Header";
 
@@ -23,11 +32,15 @@ import Kabine from "./Partials/Kabine";
 import SectionHeader from "./Partials/SectionHeader";
 import Mashinka from "./Partials/Mashinka";
 import JumtsUnShahta from "./Partials/JumtsUnShahta";
+import Footer from "./Partials/Footer";
+import { Button } from "@/components/ui/button";
 
 const { zazhimHeight, checkListPaddingX, checkListWidth, col_1, col_2, col_4 } =
     sizes;
 const { borderNormal, borderThick, borderThin } = borders;
-
+// ################
+//  START TESTING
+// ####################
 Font.register({
     family: "Arial",
     src: "/fonts/ArialRegular.ttf",
@@ -49,6 +62,79 @@ const styles = StyleSheet.create({
         // paddingLeft: checkListPaddingX,
     },
 });
+
+export const PdfDocument = ({
+    regNr,
+    address,
+    factoryNumber,
+    speed,
+    load,
+    installationYear,
+    floorsServiced,
+    entryCode,
+    birUrl,
+    inspections,
+    inspectionsNewestFirst,
+    neatbilstibuSkaits,
+    shortAddress,
+}) => (
+    <Document title={`${shortAddress}_${regNr}`}>
+        <Page size="A4" style={styles.page}>
+            <Zazhim />
+            <Header
+                latestProto={inspectionsNewestFirst[0].proto}
+                nextInspection={inspectionsNewestFirst[0].next}
+                regNr={regNr}
+                address={shortAddress}
+                factoryNumber={factoryNumber}
+                speed={speed}
+                load={load}
+                installationYear={installationYear}
+                floorsServiced={floorsServiced}
+                entryCode={entryCode}
+                birUrl={birUrl}
+            />
+            <SectionHeader header="BEDRE" />
+            <Bedre />
+            <SectionHeader header="KABĪNE" />
+            <Kabine isCE={parseInt(installationYear) >= 2000} />
+            <SectionHeader header="MAŠĪNTELPA" />
+            <Mashinka />
+            <SectionHeader header="KABĪNES JUMTS UN ŠAHTA" />
+            <JumtsUnShahta />
+            <View style={{ marginTop: "2mm", marginBottom: "2mm" }}>
+                {inspectionsNewestFirst[0].whatsWrong1.map((nonComp) => (
+                    <Text
+                        style={{
+                            ...sharedStyles.text,
+                            maxWidth: "135mm",
+                            fontSize:
+                                neatbilstibuSkaits >= 10 ? "3mm" : "3.5mm",
+                        }}
+                    >
+                        {nonComp}
+                    </Text>
+                ))}
+            </View>
+            {/* <View
+        style={{
+            width: sizes.checkListWidth,
+            height: "5mm",
+            borderBottom: borders.borderThin,
+        }}
+    ></View> */}
+            <Footer floorsServiced={floorsServiced} />
+
+            {/* <View style={sharedStyles.lineWrapper}></View> */}
+            {/* <View style={sharedStyles.lineWrapper}></View> */}
+            {/* <Text style={{ ...sharedStyles.text }}>
+        {JSON.stringify(inspectionsNewestFirst[0], null, 2)}
+    </Text> */}
+            {/*<Text>{JSON.stringify(inspectionType)}</Text>*/}
+            {/*<Text>{inspectionType}</Text>*/}
+        </Page>
+    </Document>
+);
 
 // Create Document Component
 export default function ({ lift }: { lift: LiftWithInspections }) {
@@ -111,15 +197,22 @@ export default function ({ lift }: { lift: LiftWithInspections }) {
                 whatsWrong3: inspection.non_compliances_3,
             };
         });
+    const neatbilstibuSkaits = inspectionsNewestFirst[0].whatsWrong1.length;
 
     return (
-        <PDFViewer style={{ width: "100%", height: "100vh" }}>
-            <Document>
-                <Page size="A5" style={styles.page}>
-                    <Zazhim />
-                    <Header
+        <div
+            style={{
+                height: "100vh",
+                overflow: "hidden",
+                position: "relative",
+            }}
+        >
+            {/* <PDFDownloadLink document={<PdfDocument />} fileName={regNr}> */}
+            <PDFDownloadLink
+                document={
+                    <PdfDocument
                         regNr={regNr}
-                        address={shortAddress}
+                        address={address}
                         factoryNumber={factoryNumber}
                         speed={speed}
                         load={load}
@@ -127,32 +220,87 @@ export default function ({ lift }: { lift: LiftWithInspections }) {
                         floorsServiced={floorsServiced}
                         entryCode={entryCode}
                         birUrl={birUrl}
+                        inspections={inspections}
+                        inspectionsNewestFirst={inspectionsNewestFirst}
+                        neatbilstibuSkaits={neatbilstibuSkaits}
+                        shortAddress={shortAddress}
                     />
-                    <SectionHeader header="BEDRE" />
-                    <Bedre />
-                    <SectionHeader header="KABĪNE" />
-                    <Kabine isCE={parseInt(installationYear) >= 2000} />
-                    <SectionHeader header="MAŠĪNTELPA" />
-                    <Mashinka />
-                    <SectionHeader header="KABĪNES JUMTS UN ŠAHTA" />
-                    <JumtsUnShahta />
-                    <View style={sharedStyles.lineWrapper}></View>
-                    <View style={sharedStyles.lineWrapper}></View>
-                    <View style={sharedStyles.lineWrapper}></View>
+                }
+                fileName={`PL_${shortAddress}_${regNr}.pdf`}
+            >
+                {/* <Popover
+                    placement="left"
+                    content={
+                        <p style={{ margin: 0 }}>
+                            Download as "<b>{pdfFileName}</b>"
+                        </p>
+                    }
+                >
+                    <Button
+                        icon={<DownloadOutlined style={{ fontSize: 30 }} />}
+                        shape="circle"
+                        style={{
+                            position: "absolute",
+                            bottom: 30,
+                            right: 30,
+                            width: 50,
+                            height: 50,
+                        }}
+                    />
+                </Popover> */}
 
-                    {inspectionsNewestFirst[0].whatsWrong1.map((nonComp) => (
-                        <Text style={{ ...sharedStyles.text }}>{nonComp}</Text>
-                    ))}
-                    <Text style={{ ...sharedStyles.text }}>
-                        {JSON.stringify(inspectionsNewestFirst[0], null, 2)}
-                        {/* dayjs(inspection.date_end).format(
-                                            "DD.MM.YYYY"
-                                        ) */}
-                    </Text>
-                    {/*<Text>{JSON.stringify(inspectionType)}</Text>*/}
-                    {/*<Text>{inspectionType}</Text>*/}
-                </Page>
-            </Document>
-        </PDFViewer>
+                <TooltipProvider delayDuration={200} skipDelayDuration={100}>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                className="rounded-full"
+                                style={{
+                                    position: "absolute",
+                                    bottom: 30,
+                                    right: 30,
+                                    width: 50,
+                                    height: 50,
+                                }}
+                            >
+                                <Download width={36} />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="left">
+                            <p>{`PL_${shortAddress}_${regNr}.pdf`}</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
+                {/* <Button
+                    className="rounded-full"
+                    style={{
+                        position: "absolute",
+                        bottom: 30,
+                        right: 30,
+                        width: 50,
+                        height: 50,
+                    }}
+                >
+                    <Download width={36} />
+                </Button> */}
+            </PDFDownloadLink>
+            <PDFViewer style={{ width: "100%", height: "100vh" }}>
+                <PdfDocument
+                    regNr={regNr}
+                    address={address}
+                    factoryNumber={factoryNumber}
+                    speed={speed}
+                    load={load}
+                    installationYear={installationYear}
+                    floorsServiced={floorsServiced}
+                    entryCode={entryCode}
+                    birUrl={birUrl}
+                    inspections={inspections}
+                    inspectionsNewestFirst={inspectionsNewestFirst}
+                    neatbilstibuSkaits={neatbilstibuSkaits}
+                    shortAddress={shortAddress}
+                />
+            </PDFViewer>
+        </div>
     );
 }

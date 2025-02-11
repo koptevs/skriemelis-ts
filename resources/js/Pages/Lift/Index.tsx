@@ -61,7 +61,7 @@ const Index = ({
                             type="text"
                             value={filters.search}
                             // placeholder={filters.search}
-                            className="rounded-lg text-gray-800 dark:bg-gray-800 dark:text-gray-200"
+                            className="rounded-lg border px-4 py-2 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                             onChange={(e) => {
                                 router.get(
                                     "/lifts",

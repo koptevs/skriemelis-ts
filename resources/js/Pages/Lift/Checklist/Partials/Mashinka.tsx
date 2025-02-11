@@ -110,10 +110,7 @@ const Mashinka = () => {
                         }}
                     ></View>
                 </View>
-                <Gap />
-                <Gap />
-                <Gap />
-                <Gap />
+                <Gap size={5} />
                 <View
                     style={{
                         ...sharedStyles.col_3,
@@ -136,6 +133,7 @@ const Mashinka = () => {
                         }}
                     ></View>
                 </View>
+                <Gap size={5} />
                 <View
                     style={{
                         ...sharedStyles.col_3,
@@ -209,6 +207,7 @@ const Mashinka = () => {
                         REDUKT. NOLIET.
                     </Text>
                 </View>
+                <Gap size={45} />
                 <View
                     style={{
                         ...sharedStyles.col_3,
@@ -227,6 +226,7 @@ const Mashinka = () => {
                         }}
                     ></View>
                 </View>
+
                 <View
                     style={{
                         ...sharedStyles.col_3,

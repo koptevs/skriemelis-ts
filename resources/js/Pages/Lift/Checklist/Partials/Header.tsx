@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         height: `${20 / 3}mm`,
         alignItems: "center",
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         borderBottom: borderThin,
     },
     thirdLine: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     },
     thirdLineText: {
         fontFamily: "GeorgiaBold",
-        fontSize: "4mm",
+        fontSize: "3.5mm",
         // paddingTop: "1mm",
         // paddingBottom: "0.5mm",
     },
@@ -118,6 +118,8 @@ const styles = StyleSheet.create({
 });
 
 const Header = ({
+    latestProto,
+    nextInspection,
     regNr,
     address,
     factoryNumber,
@@ -143,15 +145,23 @@ const Header = ({
                     <Text style={styles.firstLineText}>{address}</Text>
                 </View>
                 <View style={styles.secondLine}>
+                    <Text
+                        style={{ fontFamily: "GeorgiaBold", fontSize: "3.5mm" }}
+                    >
+                        {nextInspection}
+                    </Text>
                     <Text style={{ ...styles.secondLineText, fontSize: "3mm" }}>
                         {installationYear} g. / {load}kg. / {speed} m/s /{" "}
                         {floorsServiced} st.
                     </Text>
                 </View>
                 <View style={styles.thirdLine}>
-                    <Text style={{ ...styles.secondLineText, fontSize: "3mm" }}>
+                    <Text
+                        style={{ fontFamily: "GeorgiaBold", fontSize: "3.5mm" }}
+                    >
                         {entryCode}
                     </Text>
+                    <Text style={styles.thirdLineText}>{latestProto}</Text>
                     <Text style={styles.thirdLineText}>{factoryNumber}</Text>
                 </View>
             </View>
