@@ -105,7 +105,13 @@ const styles = StyleSheet.create({
     },
 });
 
-const ZinasParLifu = ({ regNr }: { regNr: string }) => {
+const ZinasParLifu = ({
+    regNr,
+    factoryNr,
+}: {
+    regNr: string;
+    factoryNr: string;
+}) => {
     return (
         <View style={styles.wrapper}>
             <View style={styles.row_1}>
@@ -133,7 +139,7 @@ const ZinasParLifu = ({ regNr }: { regNr: string }) => {
                     <Text>Rūpn. Nr.</Text>
                 </View>
                 <View style={styles.col_3}>
-                    <Text>M2345</Text>
+                    <Text>{factoryNr}</Text>
                 </View>
                 <View
                     style={{

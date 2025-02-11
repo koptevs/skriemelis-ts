@@ -178,6 +178,7 @@ export default function ({ lift }: { lift: LiftWithInspections }) {
         .replace(/prospects/i, "pr.")
         .replace(/gatve/i, "g.")
         .replace(/Annas Meierovica/i, "A.M.")
+        .replace(/Annas Brigaderes/i, "A. Brigaderes")
         .replace(/ iela/i, "");
 
     const inspectionsNewestFirst = inspections

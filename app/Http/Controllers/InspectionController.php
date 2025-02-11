@@ -135,9 +135,10 @@ class InspectionController extends Controller
      */
     public function protocol(Inspection $inspection)
     {
-        //        dd($inspection->lift()->get());
+            //    dd($inspection->lift()->get());
         //        dd($inspection);
         return Inertia::render(
+
             'Inspection/Protocol/Pdf',
             [
                 'inspection'   => $inspection,

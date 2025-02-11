@@ -16,14 +16,18 @@ const Show = ({ lift }: { lift: any }) => {
         bir_url,
     } = lift;
 
-    const recentInspection = inspections.sort((a: any, b: any) => {
+    const inspectionsSortedByDate = inspections.sort((a: any, b: any) => {
         return dayjs(b.date_start).unix() - dayjs(a.date_start).unix();
-    })[0];
+    });
+
+    const recentInspection = inspectionsSortedByDate[0];
+
+    // console.log(inspectionsSortedByDate);
 
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <h2 className="text-xl leading-tight font-semibold text-gray-800 dark:text-gray-200">
                     Lifts - {address}{" "}
                     {entry_code ? "( " + entry_code + " )" : null}
                 </h2>
@@ -173,11 +177,15 @@ const Show = ({ lift }: { lift: any }) => {
                 {/*    ########################################*/}
                 <Link
                     href={route("lifts.edit", lift.id)}
-                    className="font-semibold text-gray-600 no-underline hover:text-gray-900 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:text-gray-400 dark:hover:text-white"
+                    className="mr-2 inline-block rounded-sm bg-emerald-800 px-2 py-0.5 font-semibold text-gray-200 no-underline hover:text-gray-900 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:text-gray-400 dark:hover:text-white"
                 >
-                    <h3 className="mt-4 text-2xl text-sky-800 dark:text-sky-500">
-                        Edit
-                    </h3>
+                    Edit
+                </Link>
+                <Link
+                    href={route("lifts.checklist", lift.id)}
+                    className="mr-2 inline-block rounded-sm bg-fuchsia-800 px-2 py-0.5 font-semibold text-gray-200 no-underline hover:text-gray-900 focus:rounded-sm focus:outline focus:outline-2 focus:outline-red-500 dark:text-gray-400 dark:hover:text-white"
+                >
+                    PL
                 </Link>
                 {/*<Button*/}
                 {/*    variant="link"*/}

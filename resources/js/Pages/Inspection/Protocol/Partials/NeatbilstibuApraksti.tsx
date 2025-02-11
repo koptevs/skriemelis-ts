@@ -23,6 +23,7 @@ const neatbilstibas = [
     "3.6 - Lifta mašīnas reduktora nolietojums un eļļas noplūde.",
     "5.3 - Palielināta lifta pretsvara brīvkustība vadotnēs (nolietoti vādkurpji).",
     "8.0 - Nepietiekams apgaismojums lifta kabīnē.",
+    "8.0 - Nepietiekams apgaismojums vel kautkur.",
     "9.0 - Vadības stacijas elektriskais aprīkojums ir nolietojies (izņemot kontaktorus un aizsardzības automātus).",
 ];
 const styles = StyleSheet.create({
