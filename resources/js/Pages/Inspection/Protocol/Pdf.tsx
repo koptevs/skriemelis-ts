@@ -27,14 +27,19 @@ import NakosaParbaude from "./Partials/NakosaParbaude";
 import IekartaMarketa from "./Partials/IekartaMarketa";
 import ArParbaudesRezult from "./Partials/ArParbaudesRezult";
 import Footer from "./Partials/Footer";
+import SecondPageHeader from "./Partials/SecondPageHeader";
+import { sizes } from "./variables";
+import SecondPageTable from "./Partials/SecondPageTable";
+import SecondPageFooter from "./Partials/SecondPageFooter";
 
+const { pagePaddingLeft, pagePaddingRight } = sizes;
 // Create styles
 const styles = StyleSheet.create({
     page: {
         paddingTop: "10mm",
         paddingBottom: "10mm",
-        paddingRight: "10mm",
-        paddingLeft: "15mm",
+        paddingRight: pagePaddingRight,
+        paddingLeft: pagePaddingLeft,
     },
 });
 
@@ -56,8 +61,8 @@ export default function ({
         inspection_type: inspectionType,
         inspection_next_type: inspection_next_type,
         expert: expert,
-        date_start: date_start,
-        date_end: date_end,
+        date_start: dateStart,
+        date_end: dateEnd,
         date_next: date_next,
         date_next_normal: date_next_normal,
         label: label,
@@ -78,6 +83,11 @@ export default function ({
         <PDFViewer style={{ width: "100%", height: "100vh" }}>
             <Document>
                 <Page size="A4" style={styles.page}>
+                    <SecondPageHeader protocolNumber={protocolNumber} />
+                    <SecondPageTable />
+                    <SecondPageFooter dateStart={dateStart} dateEnd={dateEnd} />
+                </Page>
+                <Page size="A4" style={styles.page}>
                     {/* <Text>{JSON.stringify(regNr)}</Text> */}
                     {/* <Text>{JSON.stringify(inspection)}</Text> */}
                     {/*<Text>{JSON.stringify(inspectionType)}</Text>*/}
@@ -97,9 +107,12 @@ export default function ({
                     <Novertejums />
                     <NeatbilstibuApraksti />
                     <Sledziens />
-                    <NakosaParbaude />
+                    <NakosaParbaude dateStart={dateStart} dateEnd={dateEnd} />
                     <IekartaMarketa />
-                    <ArParbaudesRezult />
+                    <ArParbaudesRezult
+                        dateStart={dateStart}
+                        dateEnd={dateEnd}
+                    />
                     <Footer />
                 </Page>
             </Document>

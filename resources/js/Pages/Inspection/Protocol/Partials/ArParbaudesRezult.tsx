@@ -1,4 +1,5 @@
 import React from "react";
+import dayjs from "dayjs";
 import { Page, Text, View, StyleSheet, Font, Image } from "@react-pdf/renderer";
 import { sizes, borders } from "../variables";
 const withArRezultatiemIepazinos = true;
@@ -32,7 +33,13 @@ const styles = StyleSheet.create({
     },
 });
 
-const ArParbaudesRezult = () => {
+const ArParbaudesRezult = ({
+    dateStart,
+    dateEnd,
+}: {
+    dateStart: string;
+    dateEnd: string;
+}) => {
     return (
         <>
             <View style={{ ...styles.wrapper, marginTop: "3mm" }}>
@@ -86,7 +93,11 @@ const ArParbaudesRezult = () => {
                         textAlign: "center",
                     }}
                 >
-                    <Text style={styles.textSansBold}>23.06.2025</Text>
+                    <Text style={styles.textSansBold}>
+                        {dayjs(dateStart).diff(dayjs(dateEnd)) === 0
+                            ? dayjs(dateStart).format("DD.MM.YYYY")
+                            : `${dayjs(dateStart).format("DD")} - ${dayjs(dateEnd).format("DD.MM.YYYY")}`}
+                    </Text>
                 </View>
             </View>
             <View style={{ ...styles.wrapper }}>

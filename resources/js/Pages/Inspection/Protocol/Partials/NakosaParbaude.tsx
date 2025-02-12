@@ -1,4 +1,5 @@
 import React from "react";
+import dayjs from "dayjs";
 import { Page, Text, View, StyleSheet, Font, Image } from "@react-pdf/renderer";
 import { sizes, borders } from "../variables";
 
@@ -31,7 +32,13 @@ const styles = StyleSheet.create({
     },
 });
 
-const NakosaParbaude = () => {
+const NakosaParbaude = ({
+    dateStart,
+    dateEnd,
+}: {
+    dateStart: string;
+    dateEnd: string;
+}) => {
     return (
         <>
             <View style={{ ...styles.wrapper, marginTop: "3mm" }}>
@@ -51,7 +58,9 @@ const NakosaParbaude = () => {
                         borderBottom: borderNormal,
                     }}
                 >
-                    <Text style={styles.textSansBold}>23.06.2026</Text>
+                    <Text style={styles.textSansBold}>
+                        {dayjs(dateEnd).add(1, "year").format("DD.MM.YYYY")}
+                    </Text>
                 </View>
                 <View
                     style={{
